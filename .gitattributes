@@ -1,0 +1,5 @@
+*.js linguist-language=Scala
+*.css linguist-language=Scala
+*.html linguist-language=Scala
+*.java linguist-language=Scala
+*.txt linguist-language=Scala
