@@ -3,3 +3,4 @@
 *.html linguist-language=Scala
 *.java linguist-language=Scala
 *.txt linguist-language=Scala
+*.ipynb linguist-language=Scala
