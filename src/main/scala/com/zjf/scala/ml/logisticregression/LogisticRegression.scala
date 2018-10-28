@@ -1,7 +1,7 @@
 package com.zjf.scala.ml.logisticregression
 
 import org.apache.log4j.{Level, Logger}
-import org.apache.spark.mllib.classification.{LogisticRegressionModel, LogisticRegressionWithLBFGS}
+import org.apache.spark.mllib.classification.{LogisticRegressionModel, LogisticRegressionWithLBFGS, LogisticRegressionWithSGD}
 import org.apache.spark.mllib.evaluation.MulticlassMetrics
 import org.apache.spark.mllib.linalg.Vectors
 import org.apache.spark.mllib.regression.LabeledPoint
@@ -40,14 +40,21 @@ object LogisticRegression {
     val data = MLUtils.loadLibSVMFile(sc, basePath + "wa.txt")
 
     // 样本数据划分训练样本和测试样本
-    val splits: Array[RDD[LabeledPoint]] = data.randomSplit(Array(0.7, 0.3), seed = 1L)
+    val splits: Array[RDD[LabeledPoint]] = data.randomSplit(Array(0.6, 0.4), seed = 1L)
     val training: RDD[LabeledPoint] = splits(0).cache()
     val test: RDD[LabeledPoint] = splits(1)
 
     // 新建逻辑回归模型，并训练
-    val model: LogisticRegressionModel = new LogisticRegressionWithLBFGS()
-      .setNumClasses(10)
-      .run(training)
+//    val model: LogisticRegressionModel = new LogisticRegressionWithLBFGS()
+//      .setNumClasses(10)
+//      .run(training)
+
+    val model = LogisticRegressionWithSGD.train(training,50)	//训练模型
+
+    // SGD :随机梯度下降
+    // LBFGS ：牛顿法
+    // CG:共轭梯度法
+    //https://blog.csdn.net/dkcgx/article/details/46881819
 
     // 对测试样本进行测试
     val predictionAndLabels: RDD[(Double, Double)] = test.map {
