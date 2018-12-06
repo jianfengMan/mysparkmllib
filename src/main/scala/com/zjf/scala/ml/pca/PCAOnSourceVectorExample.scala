@@ -10,7 +10,7 @@ import org.apache.spark.rdd.RDD
 /**
   * @Description:
   * @Author: zhangjianfeng
-  * @Date: Created in 2018-12-04 
+  * @Date: Created in 2018-12-04
   */
 object PCAOnSourceVectorExample {
 
